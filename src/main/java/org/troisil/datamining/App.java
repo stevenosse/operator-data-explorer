@@ -9,6 +9,7 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.troisil.datamining.functions.DatasetCsvReader;
+import org.troisil.datamining.functions.OperatorSiteCoordinatesFunction;
 
 /**
  * Hello world!
@@ -33,9 +34,15 @@ public class App
                 .getOrCreate();
 
         var datasetCsvReader = new DatasetCsvReader(sparkSession, config.getString("app.data.input"));
-        Dataset<Row> ds = datasetCsvReader.get();
-        ds.show(5);
-        ds.printSchema();
+
+        var ds = datasetCsvReader.get();
+        OperatorSiteCoordinatesFunction siteCoordinatesFunction = new OperatorSiteCoordinatesFunction("Orange");
+        Dataset<Row> filtered = siteCoordinatesFunction.apply(ds);
+
+        filtered.show(2, false);
+
+        filtered.printSchema();
+
         log.info("See! It's logging.");
     }
 }
