@@ -3,12 +3,20 @@ package org.troisil.datamining;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.troisil.datamining.functions.DatasetCsvReader;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,6 +35,7 @@ public class DatasetCsvWriterUT {
                 .getOrCreate();
     }
 
+    @SneakyThrows
     @Test
     public void testWriteCsvFile(){
         log.info("running test on CSV Writer ...");
@@ -38,10 +47,20 @@ public class DatasetCsvWriterUT {
                 sparkSession, testInputPath
         );
         Dataset<Row> dt = reader.get();
-        Dataset<Row> ds = writer.accept(dt);
+        writer.accept(dt);
 
-        ds.show(5, false);
-        ds.printSchema();
-        assertThat(ds.count()).isGreaterThan(0);
+
+        assertThat(Files.notExists(Paths.get(testOutputPath))).isFalse();
+        assertThat(this.isEmpty(testOutputPath)).isFalse();
+    }
+
+    public boolean isEmpty(String path) throws IOException {
+        if (Files.isDirectory(Paths.get(path))) {
+            try (Stream<Path> entries = Files.list(Paths.get(path))) {
+                return !entries.findFirst().isPresent();
+            }
+        }
+
+        return false;
     }
 }

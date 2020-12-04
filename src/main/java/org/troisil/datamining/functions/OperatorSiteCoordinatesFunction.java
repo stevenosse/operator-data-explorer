@@ -5,9 +5,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.api.java.function.*;
 import org.apache.spark.sql.*;
+import org.apache.spark.sql.catalyst.encoders.RowEncoder;
+import org.apache.spark.sql.execution.RowIterator;
 
 import java.io.Serializable;
-import java.util.Iterator;
+import java.util.*;
+import java.util.Map.Entry;
 import java.util.function.Function;
 import static org.apache.spark.sql.functions.*;
 
@@ -31,21 +34,30 @@ public class OperatorSiteCoordinatesFunction implements Function<Dataset<Row>, D
          * Résultat attendu:
          * Rhône Alpes => ["1", "2", ...]
          */
-
-        /**
-         * On a essayé avec :
-         * - mapGroups
-         * - JavaPaiRDD (via mapToPair)
-         * - agg
-         * - groupByKey puis flatMapGroup
-         *
-         * mais aucune des solutions n'a fonctionné et c'est assez difficile de trouver de la documentation
-         * sur Internet
-         */
-
         return ds.filter(operatorNameFilterFunction)
-                .select(column("nom_reg"), column("site_4g"))
-                .where("site_4g = 1");
+                .groupByKey(groupDataByRegionFunction, Encoders.STRING())
+                .flatMapGroups((FlatMapGroupsFunction<String, Row, Row>) (key, values) -> {
+                    ArrayList<HashMap<String, String>> coordinatesList = new ArrayList<>();
+                    while(values.hasNext()) {
+                        Row r = values.next();
+                        HashMap<String, String> coordinates = new HashMap<String, String>();
+                        coordinates.put(r.getAs("x_lambert_93"), r.getAs("y_lambert_93"));
+                        coordinatesList.add(coordinates);
+                    }
+                    Row row = RowFactory.create(key, coordinatesList);
+
+                    return new Iterator<Row>() {
+                        @Override
+                        public boolean hasNext() {
+                            return true;
+                        }
+
+                        @Override
+                        public Row next() {
+                            return row;
+                        }
+                    };
+                }, Encoders.kryo(Row.class));
 
     }
 }

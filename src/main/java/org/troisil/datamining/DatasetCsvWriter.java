@@ -9,7 +9,7 @@ import java.util.function.Consumer;
 
 @Slf4j
 @RequiredArgsConstructor
-public class DatasetCsvWriter<Row> implements Consumer<Dataset<Row>> {
+public class DatasetCsvWriter implements Consumer<Dataset<Row>> {
     private final String outputPathStr;
 
     @Override

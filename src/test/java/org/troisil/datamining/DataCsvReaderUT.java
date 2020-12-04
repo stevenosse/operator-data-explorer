@@ -9,6 +9,7 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.troisil.datamining.functions.DatasetCsvReader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -27,7 +28,7 @@ public class DataCsvReaderUT {
                 .getOrCreate();
     }
     @Test
-    public void testReaderEmptyPath(){
+    public void readerTest(){
         log.info("running test on CSV reader ...");
         String testInputPath = "target/test-classes/data/operator_fake_data.csv";
         DatasetCsvReader reader = new DatasetCsvReader(
