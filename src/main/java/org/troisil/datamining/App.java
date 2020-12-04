@@ -50,7 +50,7 @@ public class App
         SiteCountPerOperator siteCountPerOperator = new SiteCountPerOperator();
         var ds = siteCountPerOperator.apply(datasetCsvReader.get());
 
-        ds.show(2);
+        ds.show(10);
         ds.printSchema();
 
     }
