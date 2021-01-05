@@ -1,4 +1,4 @@
-package org.troisil.datamining;
+package org.troisil.datamining.functions;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.sql.Dataset;
@@ -18,7 +18,7 @@ public class DatasetCsvWriter implements Consumer<Dataset<Row>> {
         log.info("Writing data ds.count()={} into outputPathStr = {}", ds.count(), outputPathStr);
         ds.printSchema();
         ds.show(5);
-        ds.write().mode(SaveMode.ErrorIfExists)
+        ds.write().mode(SaveMode.Overwrite)
                 .option("header", true)
                 .format("csv")
                 .save(outputPathStr);

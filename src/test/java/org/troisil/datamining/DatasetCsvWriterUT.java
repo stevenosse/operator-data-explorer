@@ -11,6 +11,7 @@ import org.apache.spark.sql.SparkSession;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.troisil.datamining.functions.DatasetCsvReader;
+import org.troisil.datamining.functions.DatasetCsvWriter;
 
 import java.io.IOException;
 import java.nio.file.Files;

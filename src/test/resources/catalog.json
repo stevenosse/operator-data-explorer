@@ -1,0 +1,39 @@
+{
+  "table": {
+    "namespace": "operator",
+    "name": "sitecount"
+  },
+  "rowkey": "key",
+  "columns": {
+    "key": {
+      "cf": "rowkey",
+      "col": "key",
+      "type": "string"
+    },
+    "operateur": {
+      "cf": "cf1",
+      "col": "word",
+      "type": "string"
+    },
+    "region": {
+      "cf": "cf1",
+      "col": "occ",
+      "type": "string"
+    },
+    "nb_sites_2g": {
+      "cf": "cf1",
+      "col": "occ",
+      "type": "int"
+    },
+    "nb_sites_3g": {
+      "cf": "cf1",
+      "col": "occ",
+      "type": "int"
+    },
+    "nb_sites_4g": {
+      "cf": "cf1",
+      "col": "occ",
+      "type": "int"
+    }
+  }
+}

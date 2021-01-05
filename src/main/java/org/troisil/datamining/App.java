@@ -9,6 +9,7 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.troisil.datamining.functions.DatasetCsvReader;
+import org.troisil.datamining.functions.DatasetCsvWriter;
 import org.troisil.datamining.functions.OperatorSiteCoordinatesFunction;
 import org.troisil.datamining.functions.SiteCountPerOperator;
 
@@ -36,22 +37,22 @@ public class App
 
         var datasetCsvReader = new DatasetCsvReader(sparkSession, config.getString("app.data.input"));
 
-        /*var ds = datasetCsvReader.get();
+
+        var ds = datasetCsvReader.get();
+
         OperatorSiteCoordinatesFunction siteCoordinatesFunction = new OperatorSiteCoordinatesFunction("Orange");
-        Dataset<Row> filtered = siteCoordinatesFunction.apply(ds);
 
-        filtered.show(2, false);
-
-        filtered.printSchema();*/
+        /*var writer1 = new DatasetCsvWriter(config.getString("app.data.output") + "_ds1");
+        Dataset<Row> ds1 = siteCoordinatesFunction.apply(ds);
+        writer1.accept(ds1);*/
 
         /**
          * Récupérer le nombre de site 2G, 3G, 4G par région de chaque opérateur
          */
         SiteCountPerOperator siteCountPerOperator = new SiteCountPerOperator();
-        var ds = siteCountPerOperator.apply(datasetCsvReader.get());
-
-        ds.show(10);
-        ds.printSchema();
-
+        var writer2 = new DatasetCsvWriter(config.getString("app.data.output") + "_ds2");
+        var ds2 = siteCountPerOperator.apply(datasetCsvReader.get());
+        ds2.printSchema();
+        writer2.accept(ds2);
     }
 }
