@@ -11,28 +11,28 @@
       "type": "string"
     },
     "operateur": {
-      "cf": "cf1",
-      "col": "word",
+      "cf": "primary",
+      "col": "operateur",
       "type": "string"
     },
     "region": {
-      "cf": "cf1",
-      "col": "occ",
+      "cf": "primary",
+      "col": "region",
       "type": "string"
     },
     "nb_sites_2g": {
       "cf": "cf1",
-      "col": "occ",
+      "col": "nb_sites_2g",
       "type": "int"
     },
     "nb_sites_3g": {
       "cf": "cf1",
-      "col": "occ",
+      "col": "nb_sites_3g",
       "type": "int"
     },
     "nb_sites_4g": {
       "cf": "cf1",
-      "col": "occ",
+      "col": "nb_sites_4g",
       "type": "int"
     }
   }
