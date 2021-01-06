@@ -40,9 +40,12 @@ public class SiteCountPerOperatorUT {
         log.info("fs={}", fs.getScheme());
         hdfs = FileSystem.get(hadoopConf);
         log.info("hdfs={}", hdfs.getScheme());
+
         clean();
+
         hdfs.mkdirs(inputPath);
         hdfs.copyFromLocalFile(inputPath, inputPath);
+
         assertThat(hdfs.exists(inputPath)).isTrue();
         assertThat(hdfs.listFiles(inputPath, true).hasNext()).isTrue();
 
