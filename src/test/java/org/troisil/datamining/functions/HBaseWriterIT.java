@@ -35,21 +35,32 @@ public class HBaseWriterIT {
             "      \"col\": \"key\",\n" +
             "      \"type\": \"string\"\n" +
             "    },\n" +
-            "    \"Latitude\": {\n" +
+            "    \"operateur\": {\n" +
             "      \"cf\": \"geo\",\n" +
             "      \"col\": \"latitude\",\n" +
             "      \"type\": \"double\"\n" +
             "    },\n" +
-            "    \"Longitude\": {\n" +
+            "    \"region\": {\n" +
             "      \"cf\": \"geo\",\n" +
-            "      \"col\": \"longitude\",\n" +
-            "      \"type\": \"double\"\n" +
+            "      \"col\": \"region\",\n" +
+            "      \"type\": \"string\"\n" +
             "    },\n" +
-            "    \"Adresse_postale\": {\n" +
+            "    \"nb_sites_2g\": {\n" +
             "      \"cf\": \"loc\",\n" +
+            "      \"col\": \"nb_sites_2g\",\n" +
+            "      \"type\": \"int\"\n" +
+            "    }\n" +
+            "    \"nb_sites_3g\": {\n" +
+            "      \"cf\": \"cf1\",\n" +
             "      \"col\": \"address\",\n" +
             "      \"type\": \"string\"\n" +
             "    }\n" +
+            "    \"nb_sites_4g\": {\n" +
+            "      \"cf\": \"cf1\",\n" +
+            "      \"col\": \"address\",\n" +
+            "      \"type\": \"string\"\n" +
+            "    }\n" +
+
             "  }\n" +
             "}";
 
