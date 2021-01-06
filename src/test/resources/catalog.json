@@ -1,0 +1,34 @@
+{
+  "table": {
+    "namespace": "operator",
+    "name": "sites"
+  },
+  "rowkey": "key",
+  "columns": {
+    "key": {
+      "cf": "rowkey",
+      "col": "key",
+      "type": "string"
+    },
+    "code_op": {
+      "cf": "id",
+      "col": "code_op",
+      "type": "double"
+    },
+    "nom_op": {
+      "cf": "id",
+      "col": "nom_op",
+      "type": "string"
+    },
+    "x_lambert_93": {
+      "cf": "geo",
+      "col": "x_lambert_93",
+      "type": "double"
+    },
+    "y_lambert_93": {
+      "cf": "geo",
+      "col": "y_lambert_93",
+      "type": "double"
+    }
+  }
+}

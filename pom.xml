@@ -16,6 +16,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <hadoop.version>3.2.0</hadoop.version>
+    <org.apache.hadoop.scope>compile</org.apache.hadoop.scope>
   </properties>
 
   <dependencies>
@@ -65,6 +67,32 @@
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-sql_2.12</artifactId>
       <version>3.0.1</version>
+    </dependency>
+
+    <!-- hadoop -->
+    <!-- Hadoop -->
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-common</artifactId>
+      <version>3.2.0</version>
+      <scope>${org.apache.hadoop.scope}</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-hdfs</artifactId>
+      <version>3.2.0</version>
+      <scope>${org.apache.hadoop.scope}</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.hadoop</groupId>
+      <artifactId>hadoop-client</artifactId>
+      <version>3.2.0</version>
+      <scope>${org.apache.hadoop.scope}</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.hortonworks</groupId>
+      <artifactId>shc-core</artifactId>
+      <version>1.1.2-2.3-s_2.11</version>
     </dependency>
   </dependencies>
 
