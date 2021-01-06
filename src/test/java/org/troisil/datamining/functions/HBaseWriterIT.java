@@ -25,8 +25,8 @@ public class HBaseWriterIT {
 
     private final String catalog = "{\n" +
             "  \"table\": {\n" +
-            "    \"namespace\": \"tourism\",\n" +
-            "    \"name\": \"coordonnees\"\n" +
+            "    \"namespace\": \"operator\",\n" +
+            "    \"name\": \"sitecount\"\n" +
             "  },\n" +
             "  \"rowkey\": \"key\",\n" +
             "  \"columns\": {\n" +
@@ -36,31 +36,30 @@ public class HBaseWriterIT {
             "      \"type\": \"string\"\n" +
             "    },\n" +
             "    \"operateur\": {\n" +
-            "      \"cf\": \"geo\",\n" +
-            "      \"col\": \"latitude\",\n" +
-            "      \"type\": \"double\"\n" +
+            "      \"cf\": \"primary\",\n" +
+            "      \"col\": \"operateur\",\n" +
+            "      \"type\": \"string\"\n" +
             "    },\n" +
             "    \"region\": {\n" +
-            "      \"cf\": \"geo\",\n" +
+            "      \"cf\": \"primary\",\n" +
             "      \"col\": \"region\",\n" +
             "      \"type\": \"string\"\n" +
             "    },\n" +
             "    \"nb_sites_2g\": {\n" +
-            "      \"cf\": \"loc\",\n" +
+            "      \"cf\": \"cf1\",\n" +
             "      \"col\": \"nb_sites_2g\",\n" +
             "      \"type\": \"int\"\n" +
-            "    }\n" +
+            "    },\n" +
             "    \"nb_sites_3g\": {\n" +
             "      \"cf\": \"cf1\",\n" +
-            "      \"col\": \"address\",\n" +
-            "      \"type\": \"string\"\n" +
-            "    }\n" +
+            "      \"col\": \"nb_sites_3g\",\n" +
+            "      \"type\": \"int\"\n" +
+            "    },\n" +
             "    \"nb_sites_4g\": {\n" +
             "      \"cf\": \"cf1\",\n" +
-            "      \"col\": \"address\",\n" +
-            "      \"type\": \"string\"\n" +
+            "      \"col\": \"nb_sites_4g\",\n" +
+            "      \"type\": \"int\"\n" +
             "    }\n" +
-
             "  }\n" +
             "}";
 
