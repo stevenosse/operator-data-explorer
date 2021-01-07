@@ -26,15 +26,4 @@ public class HBaseReader implements Supplier<Dataset<Row>> {
                 .format("org.apache.spark.sql.execution.datasources.hbase")
                 .load();
     }
-    @Data
-    @Builder
-    @AllArgsConstructor @NoArgsConstructor
-    public static class HBaseRow implements Serializable {
-        private String key;
-        private String operateur;
-        private String region;
-        private Integer nb_sites_2g;
-        private Integer nb_sites_3g;
-        private Integer nb_sites_4g;
-    }
 }

@@ -10,6 +10,7 @@ import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.junit.Test;
+import org.troisil.datamining.utils.HBaseRow;
 
 import java.io.Serializable;
 import java.util.Arrays;
@@ -65,7 +66,7 @@ public class HBaseWriterIT {
     @Test
     public void testWriter(){
         log.info("running hbaseWriter test");
-        SparkSession sparkSession = SparkSession.builder().master("local[2]").appName("test-reader").getOrCreate();
+        SparkSession sparkSession = SparkSession.builder().master("local[2]").appName("test-writer").getOrCreate();
 
         List<HBaseRow> expected = Arrays.asList(
                 HBaseRow.builder().key("k1").operateur("orange").region("haute-vienne").nb_sites_2g(1).nb_sites_3g(2).nb_sites_4g(1).build(),
@@ -83,13 +84,4 @@ public class HBaseWriterIT {
         assertThat(actualData.collectAsList()).containsExactlyElementsOf(expected);
     }
 
-    @Data @Builder @AllArgsConstructor @NoArgsConstructor
-    public static class HBaseRow implements Serializable {
-        private String key;
-        private String operateur;
-        private String region;
-        private Integer nb_sites_2g;
-        private Integer nb_sites_3g;
-        private Integer nb_sites_4g;
-    }
 }

@@ -9,6 +9,8 @@ import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.troisil.datamining.utils.HBaseRow;
+import org.troisil.datamining.utils.TestUtil;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class HBaseReaderIT {
     private static SparkSession sparkSession;
     static Dataset<Row> expectedData;
-    private static List<HBaseWriterIT.HBaseRow> expected;
+    private static List<HBaseRow> expected;
 
     private static final String catalog = "{\n" +
             "  \"table\": {\n" +
@@ -68,12 +70,9 @@ public class HBaseReaderIT {
     public static void setUp() throws IOException {
 
         sparkSession = SparkSession.builder().master("local[2]").appName("test-reader").getOrCreate();
-        expected = Arrays.asList(
-                HBaseWriterIT.HBaseRow.builder().key("k1").operateur("orange").region("haute-vienne").nb_sites_2g(1).nb_sites_3g(2).nb_sites_4g(1).build(),
-                HBaseWriterIT.HBaseRow.builder().key("k2").operateur("bouygues").region("haute-vienne").nb_sites_2g(1).nb_sites_3g(2).nb_sites_4g(1).build()
-        );
+        expected = TestUtil.buildTestData();
 
-        expectedData = sparkSession.createDataset(expected, Encoders.bean(HBaseWriterIT.HBaseRow.class)).toDF();
+        expectedData = sparkSession.createDataset(expected, Encoders.bean(HBaseRow.class)).toDF();
         expectedData.printSchema();
         expectedData.show();
 
@@ -87,8 +86,9 @@ public class HBaseReaderIT {
     public void testReader() {
         log.info("running hbaseReader test");
 
-        Dataset<HBaseWriterIT.HBaseRow> actualData = new HBaseReader(sparkSession, catalog).get().as(Encoders.bean(HBaseWriterIT.HBaseRow.class));
+        Dataset<HBaseRow> actualData = new HBaseReader(sparkSession, catalog).get().as(Encoders.bean(HBaseRow.class));
         actualData.show(2);
+
 
         assertThat(actualData.collectAsList()).isNotEmpty();
         assertThat(actualData.collectAsList()).containsExactlyElementsOf(expected);

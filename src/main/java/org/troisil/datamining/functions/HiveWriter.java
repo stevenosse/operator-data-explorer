@@ -6,6 +6,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
+import org.apache.spark.sql.SaveMode;
 import org.apache.spark.sql.SparkSession;
 
 import java.io.IOException;
@@ -38,15 +39,10 @@ public class HiveWriter implements Consumer<Dataset<Row>> {
             log.info("creating database using createDbQuery={}...", createDbQuery);
             sparkSession.sql(createDbQuery);
 
-
-
-            //rowDataset.createOrReplaceTempView(tableName);
-            //sparkSession.sql(String.format("CREATE TABLE IF NOT EXISTS %s (%s) USING hive", fullTableName, schema));
-
             log.info("writing data into hive table = {}...", fullTableName);
             rowDataset
                     .write()
-                    .mode("overwrite")
+                    .mode(SaveMode.Append)
                     .saveAsTable(fullTableName);
 
         } catch (IOException ioException){
