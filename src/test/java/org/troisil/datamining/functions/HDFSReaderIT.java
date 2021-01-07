@@ -23,7 +23,7 @@ public class HDFSReaderIT {
     private static final Configuration hadoopConf = new Configuration();
 
     private static final Config config = ConfigFactory.load("application.conf");
-    private static final String inputPathStr = config.getString("app.data.input.path");
+    private static final String inputPathStr = config.getString("app.data.input");
 
     private static final Path inputPath = new Path(inputPathStr);
 
@@ -42,7 +42,10 @@ public class HDFSReaderIT {
         clean();
         hdfs.mkdirs(inputPath.getParent());
         hdfs.copyFromLocalFile(inputPath, inputPath);
+
+
         assertThat(hdfs.exists(inputPath)).isTrue();
+        log.info("{}", hdfs.exists(inputPath));
         assertThat(hdfs.listFiles(inputPath, true).hasNext()).isTrue();
         sparkSession = SparkSession.builder().master("local[2]").appName("test-reader").getOrCreate();
     }
