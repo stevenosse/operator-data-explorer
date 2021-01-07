@@ -43,9 +43,10 @@ public class HiveWriterIT {
         log.info("showing databases after...");
         sparkSession.sql("show databases").show();
 
-        Dataset<HBaseRow> actualData = sparkSession.sql(String.format("SELECT * from %s.%s", dbName, tableName))
+        Dataset<HBaseRow> writtenData = sparkSession.sql(String.format("SELECT * from %s.%s", dbName, tableName))
                 .as(Encoders.bean(HBaseRow.class));
 
-        assertThat(actualData.collectAsList()).containsExactlyElementsOf(expected);
+        assertThat(writtenData.collectAsList()).isNotEmpty();
+        assertThat(writtenData.collectAsList()).containsExactlyInAnyOrder(expected.toArray(new HBaseRow[0]));
     }
 }
