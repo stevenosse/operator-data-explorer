@@ -8,7 +8,7 @@
   <artifactId>operator-data-explorer</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>wordcount</name>
+  <name>operator-data-explorer</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -20,6 +20,7 @@
     <scala.major.version>2.11</scala.major.version>
     <scala.version>2.11.12</scala.version>
     <hadoop.version>3.2.0</hadoop.version>
+    <scala.dep.version>2.11</scala.dep.version>
 
     <spark.scope>compile</spark.scope>
     <hadoop.scope>compile</hadoop.scope>
@@ -99,6 +100,19 @@
       <artifactId>assertj-core</artifactId>
       <version>3.4.1</version>
       <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-streaming_${scala.dep.version}</artifactId>
+      <version>${spark.version}</version>
+      <scope>${org.apache.spark.scope}</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-streaming-kafka-0-10_${scala.dep.version}</artifactId>
+      <version>${spark.version}</version>
     </dependency>
   </dependencies>
 
