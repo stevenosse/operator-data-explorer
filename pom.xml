@@ -19,7 +19,7 @@
     <spark.version>2.3.4</spark.version>
     <scala.major.version>2.11</scala.major.version>
     <scala.version>2.11.12</scala.version>
-    <hadoop.version>3.2.0</hadoop.version>
+    <hadoop.version>2.7.3</hadoop.version>
     <scala.dep.version>2.11</scala.dep.version>
 
     <spark.scope>compile</spark.scope>
@@ -113,6 +113,13 @@
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-streaming-kafka-0-10_${scala.dep.version}</artifactId>
       <version>${spark.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-hive_${scala.major.version}</artifactId>
+      <version>${spark.version}</version>
+      <scope>${spark.scope}</scope>
     </dependency>
   </dependencies>
 
