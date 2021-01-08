@@ -9,13 +9,18 @@ import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Encoders;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.execution.datasources.hbase.HBaseTableCatalog;
 import org.junit.Test;
 import org.troisil.datamining.utils.HBaseRow;
 import org.troisil.datamining.utils.TestUtil;
 
+import java.io.IOException;
 import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,45 +29,10 @@ public class HBaseWriterIT {
 
     private final String catalogName = "target/test-classes/catalog.json";
 
-    private final String catalog = "{\n" +
-            "  \"table\": {\n" +
-            "    \"namespace\": \"operator\",\n" +
-            "    \"name\": \"sitecount\"\n" +
-            "  },\n" +
-            "  \"rowkey\": \"key\",\n" +
-            "  \"columns\": {\n" +
-            "    \"key\": {\n" +
-            "      \"cf\": \"rowkey\",\n" +
-            "      \"col\": \"key\",\n" +
-            "      \"type\": \"string\"\n" +
-            "    },\n" +
-            "    \"operateur\": {\n" +
-            "      \"cf\": \"primary\",\n" +
-            "      \"col\": \"operateur\",\n" +
-            "      \"type\": \"string\"\n" +
-            "    },\n" +
-            "    \"region\": {\n" +
-            "      \"cf\": \"primary\",\n" +
-            "      \"col\": \"region\",\n" +
-            "      \"type\": \"string\"\n" +
-            "    },\n" +
-            "    \"nb_sites_2g\": {\n" +
-            "      \"cf\": \"cf1\",\n" +
-            "      \"col\": \"nb_sites_2g\",\n" +
-            "      \"type\": \"int\"\n" +
-            "    },\n" +
-            "    \"nb_sites_3g\": {\n" +
-            "      \"cf\": \"cf1\",\n" +
-            "      \"col\": \"nb_sites_3g\",\n" +
-            "      \"type\": \"int\"\n" +
-            "    },\n" +
-            "    \"nb_sites_4g\": {\n" +
-            "      \"cf\": \"cf1\",\n" +
-            "      \"col\": \"nb_sites_4g\",\n" +
-            "      \"type\": \"int\"\n" +
-            "    }\n" +
-            "  }\n" +
-            "}";
+    private String catalog = Files.readAllLines(Paths.get(catalogName)).stream().collect(Collectors.joining(" "));
+
+    public HBaseWriterIT() throws IOException {
+    }
 
     @Test
     public void testWriter(){
@@ -77,8 +47,12 @@ public class HBaseWriterIT {
 
         new HBaseWriter(catalogName).accept(expectedData);
 
-        Dataset<HBaseRow> actualData = new HBaseReader(sparkSession, catalog).get().as(Encoders.bean(HBaseRow.class));
+        Dataset<HBaseRow> actualData = sparkSession.read()
+                .option(HBaseTableCatalog.tableCatalog(), catalog)
+                .format("org.apache.spark.sql.execution.datasources.hbase")
+                .load().as(Encoders.bean(HBaseRow.class));
 
+        assertThat(actualData.collectAsList()).isNotEmpty();
         assertThat(actualData.collectAsList()).containsExactlyElementsOf(expected);
     }
 
