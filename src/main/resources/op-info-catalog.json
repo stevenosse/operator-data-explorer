@@ -1,0 +1,34 @@
+{
+  "table": {
+    "namespace": "operator",
+    "name": "sitecount"
+  },
+  "rowkey": "code_op",
+  "columns": {
+    "code_op": {
+      "cf": "rowkey",
+      "col": "code_op",
+      "type": "string"
+    },
+    "nom_op": {
+      "cf": "info",
+      "col": "nom_op",
+      "type": "string"
+    },
+    "nom_dep": {
+      "cf": "info",
+      "col": "nom_dep",
+      "type": "string"
+    },
+    "nom_reg": {
+      "cf": "info",
+      "col": "nom_reg",
+      "type": "int"
+    },
+    "insee_dep": {
+      "cf": "info",
+      "col": "insee_dep",
+      "type": "int"
+    }
+  }
+}

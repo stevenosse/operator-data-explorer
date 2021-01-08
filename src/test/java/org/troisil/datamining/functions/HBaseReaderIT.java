@@ -89,7 +89,6 @@ public class HBaseReaderIT {
         Dataset<HBaseRow> actualData = new HBaseReader(sparkSession, catalog).get().as(Encoders.bean(HBaseRow.class));
         actualData.show(2);
 
-
         assertThat(actualData.collectAsList()).isNotEmpty();
         assertThat(actualData.collectAsList()).containsExactlyElementsOf(expected);
     }
